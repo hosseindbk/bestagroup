@@ -5,7 +5,11 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 trait AuthenticatesUsers
 {
@@ -20,6 +24,21 @@ trait AuthenticatesUsers
     {
         return view('Site.auth.login');
     }
+    public function showLoginuserForm()
+    {
+//        if (Auth::check()){
+//            return Redirect::url()->previous();
+//        }
+        if (Auth::check()) {
+            return redirect()->intended();
+        }
+        //dd(intended());
+
+        session(['url' => url()->previous()]);
+        //session()->flash('url' , url()->previous());
+        return view('Site.auth.login');
+    }
+
 
     /**
      * Handle a login request to the application.
@@ -31,32 +50,40 @@ trait AuthenticatesUsers
      */
     public function loginuser(Request $request)
     {
-        $this->validateLogin($request);
+        $request->validate([
+            'phone' => 'required|numeric',
+            'password' => 'required|min:8',
+        ]);
 
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
+//        if ($validator->fails()) {
+//            dd('salam');
+//            return back()->with('errors', $validator->messages()->all()[0])->withInput();
+//        }
 
-            return $this->sendLockoutResponse($request);
-        }
+        if ($request->input('phone') != null && $request->input('password') != null) {
+            $user = User::wherePhone($request->input('phone'))->first();
+            if ($user != null) {
+                if (Hash::check($request->input('password'), $user->password)) {
+                    Auth::loginUsingId($user->id);
+                    alert()->success($user->name.' به وبسایت بستا ' , 'خوش آمدید' );
+                    //dd(url()->previous());
+                    $url  = Session::get('url');
+                    return redirect()->intended();
+                    //return Redirect::to($url);
+                    //return Redirect::route('indexfilter');
+                } else {
+                    alert()->error('عملیات ناموفق', 'شماره تلفن و یا رمز عبور اشتباه است');
+                    return Redirect::back();
+                }
+            } else {
 
-        if ($this->attemptLogin($request)) {
-            if ($request->hasSession()) {
-                $request->session()->put('auth.password_confirmed_at', time());
+                alert()->error('عملیات ناموفق', 'شماره تلفن و یا رمز عبور وارد نشده است');
+                return Redirect::back();
             }
-
-            return $this->sendLoginResponse($request);
+        } else {
+            alert()->error('عملیات ناموفق', 'شماره تلفن و یا رمز عبور وارد نشده است');
+            return Redirect::back();
         }
-
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
-        $this->incrementLoginAttempts($request);
-
-        return $this->sendFailedLoginResponse($request);
     }
 
     public function login(Request $request)

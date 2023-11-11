@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Tehran',
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fa',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -183,6 +184,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+
     ])->toArray(),
 
 ];

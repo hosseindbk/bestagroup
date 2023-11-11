@@ -1,10 +1,10 @@
 @extends('layouts.user')
 @section('title')
-<title>ورورد کاربران اتوکالا</title>
+<title>ورود کاربران سایت</title>
+
 @endsection
 @section('main')
     <div class="container">
-{{--        @include('sweet::alert')--}}
         <div class="row">
             <div class="col-lg">
                 <section class="page-account-box">
@@ -30,7 +30,6 @@
                                                 <input type="text" name="phone" required value=" " class="form-control text-left @error('phone') is-invalid @enderror" >
                                             </div>
                                             <div class="form-account-title">
-
                                                 <label for="phone" class="float-right">رمز عبور</label>
                                                 <input type="password" id="pass" required name="password" autocomplete="new-password" class="form-control @error('password') is-invalid @enderror" />
                                                 <i class="fa fa-eye-slash" style="float: left;margin-top: -25px;margin-left: 15px;" onclick="togglePassword()"></i>
@@ -47,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div >
+                    </div>
                 </section>
             </div>
         </div>
@@ -57,6 +56,7 @@
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
         </svg>
     </div>
+
 @endsection
 @section('script')
     <script >
@@ -79,4 +79,14 @@
             }
         }
     </script>
+    @if ($errors->any())
+        <script>
+            // نمایش خطاها با SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'خطا',
+                html: '<ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+            });
+        </script>
+    @endif
 @endsection
