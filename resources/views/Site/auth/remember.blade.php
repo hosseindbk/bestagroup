@@ -1,10 +1,10 @@
 @extends('layouts.user')
 @section('title')
-    <title>ورورد کاربران اتوکالا</title>
+    <title>بازیابی / دریافت رمز جدید</title>
 @endsection
 @section('main')
         <div class="container">
-            @include('sweet::alert')
+            @include('sweetalert::alert')
         <div class="row">
             <div class="col-lg">
                 <section class="page-account-box">
@@ -19,9 +19,7 @@
                                     <div class="account-box-content">
                                         <form method="POST" action="{{ route('remember') }}" class="form-account">
                                             @csrf
-                                            @include('error')
-
-                                            <h4>فراموشی رمز عبور</h4>
+                                            <h4>بازیابی / دریافت رمز جدید</h4>
                                             <div class="form-account-title">
                                                 <label for="phone" class="float-right">شماره موبایل</label>
                                                 <input type="text" name="phone" required value=" " class="form-control text-left @error('phone') is-invalid @enderror" >
@@ -45,5 +43,17 @@
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
         </svg>
     </div>
+@endsection
+@section('script')
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'خطا',
+                timer: 2500,
+                html: '<ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+            });
+        </script>
+    @endif
 @endsection
 

@@ -163,6 +163,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
             'GrahamCampbell\\ResultType\\' => 26,
+            'Ghasedak\\' => 9,
         ),
         'F' => 
         array (
@@ -534,6 +535,10 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
+        'Ghasedak\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ghasedak/php/src',
+        ),
         'Fruitcake\\Cors\\' => 
         array (
             0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
@@ -633,6 +638,8 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Notifications\\ActiveCode' => __DIR__ . '/../..' . '/app/Notifications/ActiveCode.php',
+        'App\\Notifications\\Channels\\GhasedakChannel' => __DIR__ . '/../..' . '/app/Notifications/Channels/GhasedakChannel.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -1537,6 +1544,9 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/ValidGenerator.php',
         'Fruitcake\\Cors\\CorsService' => __DIR__ . '/..' . '/fruitcake/php-cors/src/CorsService.php',
         'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => __DIR__ . '/..' . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
+        'Ghasedak\\Exceptions\\ApiException' => __DIR__ . '/..' . '/ghasedak/php/src/Exceptions/ApiException.php',
+        'Ghasedak\\Exceptions\\HttpException' => __DIR__ . '/..' . '/ghasedak/php/src/Exceptions/HttpException.php',
+        'Ghasedak\\GhasedakApi' => __DIR__ . '/..' . '/ghasedak/php/src/GhasedakApi.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',
         'GrahamCampbell\\ResultType\\Result' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Result.php',
         'GrahamCampbell\\ResultType\\Success' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Success.php',

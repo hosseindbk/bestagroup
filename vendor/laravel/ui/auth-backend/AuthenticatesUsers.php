@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\ActiveCode;
+use App\Notifications\ActiveCode as ActiveCodeNotification;
 
 trait AuthenticatesUsers
 {
@@ -52,38 +54,58 @@ trait AuthenticatesUsers
     {
         $request->validate([
             'phone' => 'required|numeric',
-            'password' => 'required|min:8',
+            'password' => 'required|string|min:8',
         ]);
-
-//        if ($validator->fails()) {
-//            dd('salam');
-//            return back()->with('errors', $validator->messages()->all()[0])->withInput();
-//        }
-
-        if ($request->input('phone') != null && $request->input('password') != null) {
+        if ($request->input('phone')  && $request->input('password')) {
             $user = User::wherePhone($request->input('phone'))->first();
             if ($user != null) {
                 if (Hash::check($request->input('password'), $user->password)) {
                     Auth::loginUsingId($user->id);
-                    alert()->success($user->name.' به وبسایت بستا ' , 'خوش آمدید' );
+                    if(Auth::check()){
+                        alert()->success($user->name.' به وبسایت بستا ' , 'خوش آمدید' );
+                        $url  = Session::get('url');
+                        return redirect()->intended();
+                    }else {
+                        alert()->error('عملیات ناموفق', 'شماره موبایل و یا رمز عبور اشتباه است');
+                        return Redirect::back();
+                    }
                     //dd(url()->previous());
-                    $url  = Session::get('url');
-                    return redirect()->intended();
                     //return Redirect::to($url);
                     //return Redirect::route('indexfilter');
                 } else {
-                    alert()->error('عملیات ناموفق', 'شماره تلفن و یا رمز عبور اشتباه است');
+                    alert()->error('عملیات ناموفق', 'شماره موبایل و یا رمز عبور اشتباه است');
                     return Redirect::back();
                 }
             } else {
-
-                alert()->error('عملیات ناموفق', 'شماره تلفن و یا رمز عبور وارد نشده است');
+                alert()->error('عملیات ناموفق', 'شماره موبایل و یا رمز عبور اشتباه است');
                 return Redirect::back();
             }
         } else {
-            alert()->error('عملیات ناموفق', 'شماره تلفن و یا رمز عبور وارد نشده است');
+            alert()->error('عملیات ناموفق', 'شماره موبایل و یا رمز عبور وارد نشده است');
             return Redirect::back();
         }
+    }
+    public function showLoginrememberForm()
+    {
+        return view('Site.auth.remember');
+    }
+    public function remember(Request $request){
+
+        $validData = $request->validate([
+            'phone' => ['required', 'exists:users,phone']
+        ]);
+
+        $user = User::wherePhone($validData['phone'])->first();
+
+        $request->session()->flash('auth', [
+            'user_id' => $user->id
+        ]);
+
+        $code = ActiveCode::generateCode($user);
+
+        $user->notify(new ActiveCodeNotification($code , $user->phone));
+        $phone = $validData['phone'];
+        return redirect(route('phone.token'))->with(['phone' => $phone]);
     }
 
     public function login(Request $request)

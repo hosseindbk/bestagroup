@@ -4,6 +4,7 @@
 
 @endsection
 @section('main')
+    @include('sweetalert::alert')
     <div class="container">
         <div class="row">
             <div class="col-lg">
@@ -35,7 +36,7 @@
                                                 <i class="fa fa-eye-slash" style="float: left;margin-top: -25px;margin-left: 15px;" onclick="togglePassword()"></i>
                                             </div>
                                             <div class="form-account-title ">
-                                                <a  href="{{route('remember')}}" class="account-link-password float-right">بازیابی / دریافت رمز عبور</a>
+                                                <a  href="{{route('remember')}}" class="account-link-password float-right">بازیابی / دریافت رمز عبور جدید</a>
                                             </div>
                                             <br>
                                             <div class="form-row-account">

@@ -15,8 +15,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'] , function (){
     // Registration Routes...
 //    Route::get('register'   , 'RegisterController@showRegistrationuserForm');
 //    Route::post('register'  , 'RegisterController@registeruser')->name('register');
-//    Route::get('token'      , 'TokenController@showToken')->name('phone.token');
-//    Route::post('token'     , 'TokenController@token')->name('verify.phone.token');
+//    Route::get('token'      , 'TokenoldController@showToken')->name('phone.token');
+//    Route::post('token'     , 'TokenoldController@token')->name('verify.phone.token');
 //    Route::get('welcome'    , 'WelcomeController@index' )->name('welcome');
 
 });
