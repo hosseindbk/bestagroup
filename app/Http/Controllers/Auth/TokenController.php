@@ -24,32 +24,30 @@ class TokenController extends Controller
 
     public function token(Request $request)
     {
-
+        $request->validate([
+            'code' => ['required','numeric','min:6','exists:active_codes,code']
+        ]);
         $token = $request->input('code');
-
 //        if(! $request->session()->has('auth')) {
 //            return redirect(route('loginuser'));
 //        }
+        $times = ActiveCode::select('expired_at')->whereCode($token)->first();
+        dd($times);
         $user = User::findOrFail($request->session()->get('auth.user_id'));
+        $user = User::find($user);
         $status = ActiveCode::verifyCode($token , $user);
-
-        if(! $status) {
-//            alert()->error('کد صحیح نبود');
-            return redirect(route('loginuser'));
-        }
 
         if(auth()->loginUsingId($user->id) && $request->session()->get('auth.reg') == 1) {
             $user->activeCode()->delete();
             $user->phone_verify = 1;
             $user->update();
             return redirect(route('indexfilter'));
-        } else {
-            if (auth()->loginUsingId($user->id)) {
+        } elseif(auth()->loginUsingId($user->id))
+        {
                 $user->activeCode()->delete();
                 $user->phone_verify = 1;
                 $user->update();
                 return redirect(route('setpass'));
-            }
         }
         return redirect(route('loginuser'));
     }

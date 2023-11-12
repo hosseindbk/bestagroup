@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,13 +97,13 @@ trait AuthenticatesUsers
         ]);
 
         $user = User::wherePhone($validData['phone'])->first();
-
+        $user = User::find($user->id);
         $request->session()->flash('auth', [
             'user_id' => $user->id
         ]);
 
         $code = ActiveCode::generateCode($user);
-
+        
         $user->notify(new ActiveCodeNotification($code , $user->phone));
         $phone = $validData['phone'];
         return redirect(route('phone.token'))->with(['phone' => $phone]);

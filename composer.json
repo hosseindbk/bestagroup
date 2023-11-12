@@ -16,7 +16,7 @@
         "laravel/ui": "^4.2",
         "matomo/device-detector": "^6.1",
         "mews/captcha": "^3.3",
-        "morilog/jalali": "^3.4",
+        "morilog/jalali": "*",
         "php-open-source-saver/jwt-auth": "^2.1",
         "realrashid/sweet-alert": "^7.1",
         "yajra/laravel-datatables-oracle": "^10.11"

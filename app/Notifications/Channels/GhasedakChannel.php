@@ -22,18 +22,18 @@ class GhasedakChannel
         $message    = $data['text'];
         $receptor   = $data['phone'];
         $code       = $data['code'];
-        $lineNumber = "2000235";
-        $api        = new \Ghasedak\GhasedakApi( 'ilvYYKKVEXlM+BAmel+hepqt8fliIow1g0Br06rP4ko');
+        $lineNumber = "10008642";
+        $apiKey        = 'ilvYYKKVEXlM+BAmel+hepqt8fliIow1g0Br06rP4ko';
 
-        try
-        {
+//        try
+//        {
 //            $api = new GhasedakApi($apiKey);
-            $api->Verify($receptor,1,'autokala',$code);
-
-            $api->SendSimple($receptor,$message,$lineNumber);
-        }
-        catch(ApiException $e){
-            throw $e;
-        }
+//            $api->Verify($receptor,1,'autokala',$code);
+//
+//            //$api->SendSimple($receptor,$message,$lineNumber);
+//        }
+//        catch(ApiException $e){
+//            throw $e;
+//        }
     }
 }
