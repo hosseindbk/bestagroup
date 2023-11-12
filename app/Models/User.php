@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\comment;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -23,7 +25,10 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+    public function activeCode()
+    {
+        return $this->hasMany(ActiveCode::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -62,5 +67,28 @@ class User extends Authenticatable
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function isAdmin()
+    {
+        return $this->level == 'admin' ? true : false;
+    }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
+    public function hasRole($role)
+    {
+        if(is_string($role)) {
+            return $this->roles->contains('name' , $role);
+        }
+        return !! $role->intersect($this->roles)->count();
+    }
+    public function comment(){
+        return $this->hasMany(comment::class);
+    }
+
+    public function commentrate(){
+        return $this->hasMany(comment::class);
     }
 }

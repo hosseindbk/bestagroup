@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class ActiveCode extends Model
 {
@@ -25,7 +25,7 @@ class ActiveCode extends Model
 
     public function scopeVerifyCode($query , $code,  $user)
     {
-        return !! $user->activeCode()->whereCode($code)->where('expired_at' , '>' , now())->first();
+        return !! $user->ActiveCode()->whereCode($code)->where('expired_at' , '>' , now())->first();
     }
 
     public function scopeGenerateCode($query , $user)
@@ -35,15 +35,15 @@ class ActiveCode extends Model
 //        } else {
 //
 //        }
-
-        $user->activeCode()->delete();
+        $user->ActiveCode()->delete();
+       // $user->ActiveCode()->delete();
 
         do {
             $code = mt_rand(100000, 999999);
         } while($this->checkCodeIsUnique($user , $code));
 
         // store the code
-        $user->activeCode()->create([
+        $user->ActiveCode()->create([
             'code' => $code,
             'expired_at' => now()->addMinutes(3)
         ]);
@@ -53,12 +53,12 @@ class ActiveCode extends Model
 
     private function checkCodeIsUnique($user, int $code)
     {
-        return !! $user->activeCode()->whereCode($code)->first();
+        return !! $user->ActiveCode()->whereCode($code)->first();
     }
 
     private function getAliveCodeForUser($user)
     {
-        return $user->activeCode()->where('expired_at' , '>' , now())->first();
+        return $user->ActiveCode()->where('expired_at' , '>' , now())->first();
     }
 }
 
