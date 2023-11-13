@@ -54,8 +54,9 @@ trait AuthenticatesUsers
     public function loginuser(Request $request)
     {
         $request->validate([
-            'phone' => 'required|numeric',
+            'phone'         => 'required|numeric',
             'password' => 'required|string|min:8',
+            'captcha'           => 'required|numeric|captcha|min:1',
         ]);
         if ($request->input('phone')  && $request->input('password')) {
             $user = User::wherePhone($request->input('phone'))->first();
@@ -93,7 +94,8 @@ trait AuthenticatesUsers
     public function remember(Request $request){
 
         $validData = $request->validate([
-            'phone' => ['required', 'exists:users,phone']
+            'phone' => ['required', 'exists:users,phone'],
+            'captcha'           => ['required' ,'numeric' , 'captcha' , 'min:1'],
         ]);
 
         $user = User::wherePhone($validData['phone'])->first();
@@ -103,7 +105,7 @@ trait AuthenticatesUsers
         ]);
 
         $code = ActiveCode::generateCode($user);
-        
+
         $user->notify(new ActiveCodeNotification($code , $user->phone));
         $phone = $validData['phone'];
         return redirect(route('phone.token'))->with(['phone' => $phone]);

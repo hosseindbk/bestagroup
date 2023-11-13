@@ -31,9 +31,20 @@
                                                 <input type="text" name="phone" required value=" " class="form-control text-left @error('phone') is-invalid @enderror" >
                                             </div>
                                             <div class="form-account-title">
-                                                <label for="phone" class="float-right">رمز عبور</label>
+                                                <label for="password" class="float-right">رمز عبور</label>
                                                 <input type="password" id="pass" required name="password" autocomplete="new-password" class="form-control @error('password') is-invalid @enderror" />
                                                 <i class="fa fa-eye-slash" style="float: left;margin-top: -25px;margin-left: 15px;" onclick="togglePassword()"></i>
+                                            </div>
+                                            <div class="form-account-title">
+                                                <label for="captcha" class="float-right">سوال امنیتی</label>
+                                                <input type="text" name="captcha" required id="captcha" class="form-control @error('captcha') is-invalid @enderror"/>
+                                            </div>
+                                            <div class="form-account-title captcha">
+                                                <label for="captcha_img" class="float-right"></label>
+                                                <span>{!! captcha_img('math') !!}</span>
+                                                <button type="button" class="btn btn-primery" class="reload" id="reload">
+                                                    &#x21bb;
+                                                </button>
                                             </div>
                                             <div class="form-account-title ">
                                                 <a  href="{{route('remember')}}" class="account-link-password float-right">بازیابی / دریافت رمز عبور جدید</a>
@@ -90,4 +101,15 @@
             });
         </script>
     @endif
+    <script type="text/javascript">
+        $('#reload').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'reload-captcha',
+                success: function (data) {
+                    $(".captcha span").html(data.captcha);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -17,4 +17,8 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    public function reloadCaptcha(){
+        return response()->json(['captcha'=> captcha_img('math')]);
+    }
+
 }

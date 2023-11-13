@@ -13,6 +13,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'] , function (){
     Route::get('logout'     , 'LoginController@logout')->name('logout');
     Route::get('token'      , 'TokenController@showToken')->name('phone.token');
     Route::post('token'     , 'TokenController@token')->name('verify.phone.token');
+    Route::get('reload-captcha'     , 'LoginController@reloadcaptcha')->name('reload-captcha');
 
     // Registration Routes...
 //    Route::get('register'   , 'RegisterController@showRegistrationuserForm');

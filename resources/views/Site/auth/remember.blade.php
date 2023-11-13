@@ -24,6 +24,17 @@
                                                 <label for="phone" class="float-right">شماره موبایل</label>
                                                 <input type="text" name="phone" required value=" " class="form-control text-left @error('phone') is-invalid @enderror" >
                                             </div>
+                                            <div class="form-account-title">
+                                                <label for="captcha" class="float-right">سوال امنیتی</label>
+                                                <input type="text" name="captcha" required id="captcha" class="form-control @error('captcha') is-invalid @enderror"/>
+                                            </div>
+                                            <div class="form-account-title captcha">
+                                                <label for="captcha_img" class="float-right"></label>
+                                                <span>{!! captcha_img('math') !!}</span>
+                                                <button type="button" class="btn btn-primery" class="reload" id="reload">
+                                                    &#x21bb;
+                                                </button>
+                                            </div>
                                             <br>
                                             <div class="form-row-account">
                                                 <button class="btn btn-primary btn-login">ورود</button>
@@ -55,5 +66,16 @@
             });
         </script>
     @endif
+    <script type="text/javascript">
+        $('#reload').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'reload-captcha',
+                success: function (data) {
+                    $(".captcha span").html(data.captcha);
+                }
+            });
+        });
+    </script>
 @endsection
 
