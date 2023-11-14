@@ -60,7 +60,7 @@ trait RegistersUsers
 
             $users = new User();
 
-            $users->phone       = $request->input('phone');
+            $users->phone               = $request->input('phone');
             $users->username    = $request->input('username');
             $users->password    = Hash::make($request->input('password'));
             $users->type_id     = 4;

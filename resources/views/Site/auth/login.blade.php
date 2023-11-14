@@ -93,7 +93,6 @@
     </script>
     @if ($errors->any())
         <script>
-            // نمایش خطاها با SweetAlert
             Swal.fire({
                 icon: 'error',
                 title: 'خطا',

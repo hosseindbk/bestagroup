@@ -105,4 +105,13 @@
             });
         });
     </script>
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'خطا',
+                html: '<ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+            });
+        </script>
+    @endif
 @endsection
