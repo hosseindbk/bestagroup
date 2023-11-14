@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('title')
-    <title>ورورد کاربران اتوکالا</title>
+    <title>ورورد کاربران وبسایت</title>
 @endsection
 @section('main')
     <div class="container">
@@ -20,7 +20,7 @@
                                             <h4>رمز عبور جدید خود را وارد نمایید</h4>
                                             <div class="form-account-title">
                                                 <label>رمز عبور</label>
-                                                <input type="password" name="password" placeholder="حداقل 8 کارکتر یا عدد وارد کنید" class="form-control" />
+                                                <input type="password" name="password" placeholder="حداقل 8 کارکتر وارد کنید" class="form-control" />
                                             </div>
                                             <div class="form-account-title">
                                                 <label>تکرار رمز عبور</label>

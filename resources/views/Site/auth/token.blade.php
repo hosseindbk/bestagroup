@@ -28,7 +28,7 @@
                                                 <input type="text" name="code" id="code_input" required value=" " class="form-control" maxlength="7">
                                             </div>
                                             <div class="form-row-account">
-                                                <button class="btn btn-primary btn-login">تایید کد</button>
+                                                <button class="btn btn-primary btn-login" id="sender">تایید کد</button>
                                             </div>
                                         </form>
                                         <div id="countdown"></div>
@@ -57,15 +57,10 @@
 @php
     $times = \App\Models\ActiveCode::select('expired_at')->whereUser_id(\Illuminate\Support\Facades\Session::get('auth.user_id'))->first();
     $time_now = jdate();
+    //dd($times);
 @endphp
 @endsection
 @section('script')
-    <script src="{{asset('site/js/vendor/countdown.min.js')}}"></script>
-    <script>
-        setTimeout(function(){
-            window.location.href = '{{url('login')}}';
-        }, 300000);
-    </script>
     @if ($errors->any())
         <script>
             // نمایش خطاها با SweetAlert
@@ -81,7 +76,7 @@
             // کدی برای اتصال به بانک اطلاعاتی و دریافت زمان باقی مانده
             // مثلا:
             // const remainingTime = اتصال به بانک اطلاعاتی و دریافت زمان باقی مانده
-            const remainingTime = {{jdate($times->expired_at)->getTimestamp() - jdate()->getTimestamp()}}; // فرضا زمان باقی مانده در ثانیه
+            const remainingTime = @if($times) {{jdate($times->expired_at)->getTimestamp() - jdate()->getTimestamp()}}; @else 0 @endif// فرضا زمان باقی مانده در ثانیه
             return remainingTime;
         }
 
@@ -98,6 +93,7 @@
                     clearInterval(intervalId);
                     document.getElementById('countdown').innerText = 'زمان اعتبار کد پیامک شده به پایان رسیده';
                     document.getElementById('code_input').disabled = true; // غیرفعال کردن ورودی
+                    document.getElementById('sender').disabled = true; // غیرفعال کردن ورودی
 
                 } else {
                     remainingTime--;
