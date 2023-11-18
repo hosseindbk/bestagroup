@@ -25,6 +25,8 @@ class UserRequest extends FormRequest
             'phone'     => ['required', 'string', 'min:10'  , 'max:255' , 'unique:users'],
             'username'  => ['required', 'string', 'max:255' , 'unique:users'],
             'email'     => ['string'  , 'email' , 'max:255' , 'unique:users'],
+            'name'      => ['required', 'string', 'max:255'],
+            'type_user' => ['required', 'numeric'],
             'password'  => ['required', 'string', 'min:8'   , 'confirmed'],
         ];
     }
