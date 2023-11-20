@@ -24,8 +24,12 @@
                                     <div class="account-box-content">
                                         <form method="POST" action="{{ route('login-user') }}" class="form-account">
                                             @csrf
+                                            <div class="form-account-title">
+                                                <a href="{{url('login/google')}}" class="btn btn-danger btn-login" style="width: 50%"><i class="fa fa-google mr-2"></i> ورود با حساب گوگل </a>
+                                            </div>
+                                            <hr>
+
 {{--                                            @include('error')--}}
-                                            <h4>ورود به حساب کاربری</h4>
                                             <div class="form-account-title">
                                                 <label for="phone" class="float-right">شماره موبایل</label>
                                                 <input type="text" name="phone" required value=" " class="form-control text-left @error('phone') is-invalid @enderror" >

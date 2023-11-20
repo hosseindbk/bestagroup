@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\ActiveCode;
 use App\Notifications\ActiveCode as ActiveCodeNotification;
+use Laravel\Socialite\Facades\Socialite;
 
 trait AuthenticatesUsers
 {
@@ -86,6 +87,38 @@ trait AuthenticatesUsers
             alert()->error('عملیات ناموفق', 'شماره موبایل و یا رمز عبور وارد نشده است');
             return Redirect::back();
         }
+    }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+        $authUser = $this->findOrCreateUser($user, $provider);
+        Auth::login($authUser, true);
+        alert()->success($user->name.' به وبسایت ' , 'خوش آمدید' );
+        $url  = Session::get('url');
+        return Redirect::to($url);
+    }
+
+    public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::whereEmail($user->email)->first();
+        if ($authUser) {
+            return $authUser;
+        }
+        return  User::create([
+            'name'          => $user->name,
+            'username'      => $user->name,
+            'email'         => $user->email,
+            'type_id'       => 6,
+            'email_verify'  => 1,
+            'status'        => 4,
+            'password'      => $user->id
+        ]);
     }
     public function showLoginrememberForm()
     {
